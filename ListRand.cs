@@ -1,4 +1,6 @@
-﻿public class ListRand
+﻿using System.IO;
+
+public class ListRand
 {
     public ListNode Head;
     public ListNode Tail;
@@ -52,8 +54,11 @@
     {
         try
         {
-            List<int> randomNodeIndexes = new List<int>();
             string[] splittedText = new StreamReader(s).ReadToEnd().Split(";");
+
+            Count = splittedText.Length - 1;
+
+            int[] randomNodeIndexes = new int[Count];
             ListNode currentNode = new ListNode();
 
             currentNode = new ListNode();
@@ -61,12 +66,12 @@
             var values = text.Split(":");
             var data = values[0];
             int index = int.Parse(values[1]);
-            randomNodeIndexes.Add(index);
+            randomNodeIndexes[0] = index;
             currentNode.Data = data;
 
             Head = currentNode;
 
-            for (int i = 1; i < splittedText.Length - 1; i++)
+            for (int i = 1; i < Count; i++)
             {
                 text = splittedText[i];
                 values = text.Split(":");
@@ -79,12 +84,12 @@
                 node.Prev = currentNode;
                 currentNode = node;
                 currentNode.Data = data;
-                randomNodeIndexes.Add(index);
+                randomNodeIndexes[i] = index;
             }
 
             Tail = currentNode;
 
-            for (int i = 0; i < randomNodeIndexes.Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 if (randomNodeIndexes[i] != -1)
                     GetNode(i).Rand = GetNode(randomNodeIndexes[i]);
